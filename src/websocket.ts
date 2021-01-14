@@ -25,7 +25,6 @@ wss.on('connection', function connection(ws: CustomWebSocket) {
 	});
 	ws.on('message', function incoming(payload) {
 		const message = processMessage(payload.toString());
-
 		if (!message) {
 			//broken msg
 			return;
@@ -35,8 +34,9 @@ wss.on('connection', function connection(ws: CustomWebSocket) {
 			broadcastMessage(message, ws);
 		} else if (message.intent === 'old-messages') {
 			const count = message.count;
-			if (!count) return;
-			else retrieveAndSendMessages(ws, count);
+			const postId = message.postId;
+			if (!count || !postId) return;
+			else retrieveAndSendMessages(ws, count, postId);
 		}
 	});
 });
