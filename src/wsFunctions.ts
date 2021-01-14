@@ -45,13 +45,14 @@ export async function broadcastMessage(message: any, ws: CustomWebSocket) {
 	console.log(message, 'is the message');
 }
 
-export async function retrieveAndSendMessages(ws: CustomWebSocket, count: number) {
-	const messages = await Message.find({}, { email: 1, message: 1 })
+export async function retrieveAndSendMessages(ws: CustomWebSocket, count: number, postId: String) {
+	const messages = await Message.find({postId: postId})
 		.sort({ date: 1 })
 		.limit(count)
 		.lean(); //get js based array
 	ws.send(
 		JSON.stringify({
+			postId: postId,
 			intent: 'old-messges',
 			data: messages,
 		}) // this if the recevied websocket request from client has ,old messages, intent the respond is all the messages in the db ordered based on date
