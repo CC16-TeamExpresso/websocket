@@ -17,14 +17,17 @@ export async function broadcastMessage(message: any, ws: CustomWebSocket) {
 		date: Date.now(),
 	});
 
-	try{
+	try {
 		const result = await newMessage.save();
-		await Post.updateOne({_id: message.postId},{
-			$push:{
-				messages: result._id
+		await Post.updateOne(
+			{ _id: message.postId },
+			{
+				$push: {
+					messages: result._id,
+				},
 			}
-		})
-	}catch (error) {
+		);
+	} catch (error) {
 		console.log(error);
 	}
 
@@ -46,10 +49,7 @@ export async function broadcastMessage(message: any, ws: CustomWebSocket) {
 }
 
 export async function retrieveAndSendMessages(ws: CustomWebSocket, count: number, postId: String) {
-	const messages = await Message.find({postId: postId})
-		.sort({ date: 1 })
-		.limit(count)
-		.lean(); //get js based array
+	const messages = await Message.find({ postId: postId }).sort({ date: -1 }).limit(count).lean(); //get js based array
 	ws.send(
 		JSON.stringify({
 			postId: postId,
