@@ -26,7 +26,7 @@ wss.on('connection', function connection(ws: CustomWebSocket) {
 	ws.on('message', function incoming(payload) {
 		const message = processMessage(payload.toString());
 
-		if (!message || message.intent !== 'chat') {
+		if (!message) {
 			//broken msg
 			return;
 		}
