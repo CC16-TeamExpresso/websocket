@@ -12,6 +12,7 @@ export function broadcastMessage(message: any, ws: CustomWebSocket) {
 	const newMessage = new Message({
 		email: ws.connectionID,
 		message: message.message,
+		postId: message.postId,
 		date: Date.now(),
 	});
 
@@ -24,6 +25,7 @@ export function broadcastMessage(message: any, ws: CustomWebSocket) {
 			JSON.stringify({
 				message: message.message,
 				user: ws.connectionID,
+				postId: message.postId,
 				intent: 'chat',
 			})
 		);
