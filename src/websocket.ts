@@ -25,7 +25,6 @@ wss.on('connection', function connection(ws: CustomWebSocket) {
 	});
 	ws.on('message', function incoming(payload) {
 		const message = processMessage(payload.toString());
-		console.log(message);
 		if (!message) {
 			//broken msg
 			return;
