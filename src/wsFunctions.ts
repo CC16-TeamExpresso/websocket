@@ -1,5 +1,6 @@
 import { CustomWebSocket } from './utilities';
 import Message from './models/messages';
+import Post from './models/post';
 import { v4 as uuid } from 'uuid';
 
 export let clients: CustomWebSocket[] = [];
@@ -8,7 +9,7 @@ export function setClients(newClients: CustomWebSocket[]) {
 	clients = newClients;
 }
 
-export function broadcastMessage(message: any, ws: CustomWebSocket) {
+export async function broadcastMessage(message: any, ws: CustomWebSocket) {
 	const newMessage = new Message({
 		email: ws.connectionID,
 		message: message.message,
@@ -16,7 +17,16 @@ export function broadcastMessage(message: any, ws: CustomWebSocket) {
 		date: Date.now(),
 	});
 
-	newMessage.save();
+	try{
+		const result = await newMessage.save();
+		await Post.updateOne({_id: message.postId},{
+			$push:{
+				messages: result._id
+			}
+		})
+	}catch (error) {
+		console.log(error);
+	}
 
 	for (let i = 0; i < clients.length; i++) {
 		//comments or messages should be seen by all connected clients as soon as the the msg is sent
