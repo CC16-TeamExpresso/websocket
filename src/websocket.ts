@@ -4,10 +4,18 @@ import { CustomWebSocket, processMessage } from './utilities';
 import { broadcastMessage, clients, setClients, retrieveAndSendMessages } from './wsFunctions';
 import http from 'http';
 import jwt from 'jsonwebtoken';
+import mongoose from "mongoose";
 const server = http.createServer();
 const wss = new WebSocket.Server({ noServer: true });
 
+
 const PORT = process.env.PORT || 1338;
+
+mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/peekify');
+
+// for local test
+// mongoose.connect('mongodb://localhost:27017/peekify');
+
 
 wss.on('connection', function connection(ws: CustomWebSocket) {
 	//look at utilities
