@@ -4,10 +4,9 @@ import { CustomWebSocket, processMessage } from './utilities';
 import { broadcastMessage, clients, setClients, retrieveAndSendMessages } from './wsFunctions';
 import http from 'http';
 import jwt from 'jsonwebtoken';
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 const server = http.createServer();
 const wss = new WebSocket.Server({ noServer: true });
-
 
 const PORT = process.env.PORT || 1338;
 
@@ -15,7 +14,6 @@ mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/pee
 
 // for local test
 // mongoose.connect('mongodb://localhost:27017/peekify');
-
 
 wss.on('connection', function connection(ws: CustomWebSocket) {
 	//look at utilities
@@ -50,7 +48,8 @@ server.on('upgrade', function upgrade(request, socket, head) {
 	let email: string = '';
 	try {
 		const payload: any = jwt.verify(token, process.env.JWT_SECRET_TOKEN);
-		email = payload.email; //verfity if token is correctly signed // change the type of any ?
+
+		email = payload.username; //verfity if token is correctly signed // change the type of any ?
 	} catch (error) {
 		socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
 		socket.destroy();
@@ -59,7 +58,6 @@ server.on('upgrade', function upgrade(request, socket, head) {
 	wss.handleUpgrade(request, socket, head, function done(ws) {
 		const _ws = ws as CustomWebSocket;
 		_ws.connectionID = email;
-
 		wss.emit('connection', ws, request);
 	});
 });
