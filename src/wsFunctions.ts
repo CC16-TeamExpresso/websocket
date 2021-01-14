@@ -50,7 +50,6 @@ export async function retrieveAndSendMessages(ws: CustomWebSocket, count: number
 		.sort({ date: 1 })
 		.limit(count)
 		.lean(); //get js based array
-	console.log(messages);
 	ws.send(
 		JSON.stringify({
 			intent: 'old-messges',
