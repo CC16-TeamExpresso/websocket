@@ -49,10 +49,7 @@ export async function broadcastMessage(message: any, ws: CustomWebSocket) {
 }
 
 export async function retrieveAndSendMessages(ws: CustomWebSocket, count: number, postId: String) {
-	const messages = await Message.find({postId: postId})
-		.sort({ date: -1 })
-		.limit(count)
-		.lean(); //get js based array
+	const messages = await Message.find({ postId: postId }).sort({ date: -1 }).limit(count).lean(); //get js based array
 	ws.send(
 		JSON.stringify({
 			postId: postId,
