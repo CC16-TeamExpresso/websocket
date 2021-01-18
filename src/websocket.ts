@@ -18,9 +18,9 @@ mongoose.connect('mongodb+srv://expresso:expresso@cluster0.ire4b.mongodb.net/pee
 wss.on('connection', function connection(ws: CustomWebSocket) {
 	//look at utilities
 	//create connection ID
-	clients.push(ws);
+	clients.push(ws); //whenever its connected push it to the clients array
 	ws.on('close', () => {
-		//when connection is closed the user is removed from clients
+		//when connection is closed for whatever reason (user not prohibited to comment)the user is removed from clients
 		setClients(clients.filter((generalSocket) => ws.connectionID !== ws.connectionID));
 	});
 	ws.on('message', function incoming(payload) {
@@ -43,6 +43,7 @@ wss.on('connection', function connection(ws: CustomWebSocket) {
 
 //reference from authentication : https://github.com/websockets/ws
 server.on('upgrade', function upgrade(request, socket, head) {
+	//the token is sent on a path from request
 	const token = request.url.slice(1); //remove the backslash from the token url that we got from request
 	//console.log('REQUEST', request); // this will show you the request which is a very huge file but it has a url part so we used that.
 	let email: string = '';
@@ -51,6 +52,7 @@ server.on('upgrade', function upgrade(request, socket, head) {
 
 		email = payload.username; //verfity if token is correctly signed // change the type of any ?
 	} catch (error) {
+		//dont connect ws server
 		socket.write('HTTP/1.1 401 Unauthorized\r\n\r\n');
 		socket.destroy();
 		return;

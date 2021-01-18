@@ -32,7 +32,7 @@ export async function broadcastMessage(message: any, ws: CustomWebSocket) {
 	}
 
 	for (let i = 0; i < clients.length; i++) {
-		//comments or messages should be seen by all connected clients as soon as the the msg is sent
+		//comments or messages should be seen by all connected clients as soon as the the msg is sent (we can start broadcast here because we have all the connected clients)
 		const client = clients[i];
 		client.send(
 			JSON.stringify({
