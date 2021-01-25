@@ -2,15 +2,13 @@
 
 Did you ever wonder what is the person next to you listening to ?
 
-Our mission is to connect people through this curiosity. 
+Our mission is to connect people through this curiosity.
 
 ![icon](./peekify.ico)
 
 Peekify is available [here](https://master.d3koc4k87o35ht.amplifyapp.com/)!
 
-
 ### This is the backend websocket server repository.
-
 
 ## Technology used
 
@@ -29,8 +27,13 @@ Peekify is available [here](https://master.d3koc4k87o35ht.amplifyapp.com/)!
 - [heroku](https://www.heroku.com/home)
 
 ## Link
+
 - [General repo](https://github.com/CC16-TeamExpresso/Main-App)
 
 - [FrontEnd repo](https://github.com/CC16-TeamExpresso/front)
 
 - [BackEnd repo](https://github.com/CC16-TeamExpresso/back)
+
+## References
+
+- [WebSocket](https://github.com/websockets/ws)
